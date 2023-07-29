@@ -1,0 +1,9 @@
+.action {
+    border: none;
+    background-color: cornflowerblue;
+    border-radius: 10px;
+    padding: 10px;
+    text-transform: uppercase;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    color: white;
+}

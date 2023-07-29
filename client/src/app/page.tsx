@@ -4,9 +4,11 @@ import {ISensor, SensorIdType} from "@/app/ISensor";
 import {connection} from "@/app/ws-client";
 import {SensorsList} from "@/app/SensorsList";
 import './globals.css'
+import {Button} from "@/app/Button";
 
 export default function Home() {
     const [sensors, setSensors] = useState<Array<ISensor> | []>([])
+    const [isOnlyConnected, setIsOnlyConnected] = useState<boolean>(false)
 
     useEffect(() => {
         connection.onmessage = event => {
@@ -32,12 +34,15 @@ export default function Home() {
         };
     }, [])
 
-    console.log(sensors)
+    const onClickConnectedSensors = () => {
+        setIsOnlyConnected(!isOnlyConnected)
+    }
 
     return (
         <>
             <h1>IOT sensors</h1>
-            <SensorsList sensors={sensors}/>
+            <Button clickHandler={onClickConnectedSensors} actionLabel={'show only connected sensors'}/>
+            <SensorsList sensors={sensors} isOnlyConnected={isOnlyConnected}/>
         </>
     )
 }
