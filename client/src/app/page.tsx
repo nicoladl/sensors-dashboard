@@ -1,32 +1,52 @@
 "use client";
-import styles from './page.module.css'
 import {useEffect, useState} from "react";
 import Sensor from "@/app/sensor";
-import {ISensor} from "@/app/ISensor";
-
-const WSURL: string = 'ws://localhost:5001';
+import {ISensor, SensorIdType} from "@/app/ISensor";
+import {connection} from "@/app/ws-client";
 
 export default function Home() {
     const [sensors, setSensors] = useState<Array<ISensor> | []>([])
 
-    const connection: WebSocket = new WebSocket(WSURL);
-
     useEffect(() => {
         connection.onmessage = event => {
             const sensor: ISensor = JSON.parse(event.data)
-            setSensors((prevMessages: Array<ISensor>) => [...prevMessages, sensor]);
+            console.log(sensor)
+
+            setSensors((prevSensors: Array<ISensor>) => {
+                const sensorId: SensorIdType = sensor.id
+                const sensorsIds: Array<SensorIdType> = prevSensors.map((sensor: ISensor) => sensor.id)
+                const isSensorConnected: boolean = sensorsIds.includes(sensorId)
+
+                if (isSensorConnected) {
+                    return prevSensors.map(item => item.id === sensorId ? sensor : prevSensors[Number(item.id)])
+                }
+
+                return [...prevSensors, sensor];
+            });
+        };
+
+
+        return () => {
+            connection.close();
         };
     }, [])
 
     return (
-        <div className={styles.main}>
+        <>
             <h1>IOT sensors</h1>
 
             <ul>
                 {sensors.map((sensor: ISensor) => (
-                    <Sensor sensor={sensor} />
+                    <Sensor
+                        key={sensor.id}
+                        id={sensor.id}
+                        name={sensor.name}
+                        connected={sensor.connected}
+                        unit={sensor.unit}
+                        value={sensor.value}
+                    />
                 ))}
             </ul>
-        </div>
+        </>
     )
 }
