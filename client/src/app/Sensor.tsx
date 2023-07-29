@@ -1,8 +1,9 @@
 "use client";
 import {ISensor, ISensorCommand, SensorCommand, SensorIdType} from "@/app/ISensor";
 import {connection} from "@/app/ws-client";
+import styles from "@/app/Sensor.module.css";
 
-export default function Sensor({ name, unit, value, connected, id }: ISensor) {
+export const Sensor = ({ name, unit, value, connected, id }: ISensor) => {
     const { CONNECT, DISCONNECT } = SensorCommand
 
     const onClick = (sensorId: SensorIdType) => {
@@ -14,11 +15,9 @@ export default function Sensor({ name, unit, value, connected, id }: ISensor) {
     }
 
     return (
-        <li>
+        <li className={styles.sensor}>
             <p>{name}</p>
-            <p>Unit: {unit}</p>
-            <p>{value ? value : 'N/A'}</p>
-            <p>{connected ? 'Connected' : 'Not connected'}</p>
+            <p>{value ? `${value} ${unit}` : 'N/A'}</p>
             <button onClick={() => onClick(id)}>{connected ? DISCONNECT : CONNECT}</button>
         </li>
     )

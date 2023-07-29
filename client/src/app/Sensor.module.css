@@ -1,0 +1,8 @@
+.sensor {
+    list-style: none;
+    background-color: #b8b8ff;
+    border: 1px solid #9381ff;
+    margin: 10px;
+    padding: 5px;
+    min-width: 200px;
+}
