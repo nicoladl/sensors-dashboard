@@ -3,8 +3,8 @@ import {useEffect, useState} from "react";
 import {ISensor, SensorIdType} from "@/app/ISensor";
 import {connection} from "@/app/ws-client";
 import {SensorsList} from "@/app/SensorsList";
-import './globals.css'
 import {Button} from "@/app/Button";
+import './globals.css'
 
 export default function Home() {
     const [sensors, setSensors] = useState<Array<ISensor> | []>([])
@@ -40,7 +40,7 @@ export default function Home() {
 
     return (
         <>
-            <h1>IOT sensors</h1>
+            <h1>Sensors Dashboard</h1>
             <Button clickHandler={onClickConnectedSensors} actionLabel={'show only connected sensors'}/>
             <SensorsList sensors={sensors} isOnlyConnected={isOnlyConnected}/>
         </>

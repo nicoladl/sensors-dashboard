@@ -1,6 +1,6 @@
 .sensorsList {
     display: flex;
     flex-wrap: wrap;
-    margin: 0;
     padding: 0;
+    margin: 10px 0;
 }

@@ -2,8 +2,20 @@
     list-style: none;
     background-color: #b8b8ff;
     border-radius: 5px;
-    margin: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
     padding: 10px;
     width: 200px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.sensorName {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sensorValue {
+    padding: 10px 0;
+    /*font-size: 2em;*/
 }

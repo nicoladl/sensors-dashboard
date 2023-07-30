@@ -5,7 +5,7 @@ export const Button = ({clickHandler, actionLabel}: {
     actionLabel: string
 }) => (
     <button
-        className={styles.action}
+        className={styles.button}
         onClick={clickHandler}
     >
         {actionLabel}
