@@ -18,10 +18,25 @@ export default function Home() {
             setSensors((prevSensors: Array<ISensor>) => {
                 const sensorId: SensorIdType = sensor.id
                 const sensorIds: Array<SensorIdType> = prevSensors.map((prevSensor: ISensor) => prevSensor.id)
+
                 const isSensorConnected: boolean = sensorIds.includes(sensorId)
 
                 if (isSensorConnected) {
-                    return prevSensors.map(item => item.id === sensorId ? sensor : prevSensors[Number(item.id)])
+                    if (!sensor.connected) {
+                        console.log(sensor)
+                        const item = {
+                            ...sensor,
+                            value: prevSensors[Number(sensorId)].value
+                        }
+                        console.log(item)
+
+                        return prevSensors.map(prevSensor => prevSensor.id === sensorId ? item : prevSensors[Number(prevSensor.id)])
+                    }
+
+
+                    return prevSensors.map(item => {
+                        return item.id === sensorId ? sensor : prevSensors[Number(item.id)]
+                    })
                 }
 
                 return [...prevSensors, sensor];
@@ -34,6 +49,8 @@ export default function Home() {
         };
     }, [])
 
+    const connectedSensors: Array<ISensor> = isOnlyConnected ? sensors.filter((sensor: ISensor) => sensor.connected) : sensors
+
     const onClickConnectedSensors = () => {
         setIsOnlyConnected(!isOnlyConnected)
     }
@@ -42,7 +59,7 @@ export default function Home() {
         <>
             <h1>Sensors Dashboard</h1>
             <Button clickHandler={onClickConnectedSensors} actionLabel={'show only connected sensors'}/>
-            <SensorsList sensors={sensors} isOnlyConnected={isOnlyConnected}/>
+            <SensorsList sensors={connectedSensors}/>
         </>
     )
 }
